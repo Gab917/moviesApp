@@ -14,7 +14,7 @@ Ext.define('moviesRentalApp.view.AddMovieFormWindow', {
     },
 
     viewModel: {
-        type: 'addmovieform'
+        type: 'movie'
     },
 
     items: [{
@@ -30,29 +30,60 @@ Ext.define('moviesRentalApp.view.AddMovieFormWindow', {
             xtype: 'textfield',
             name: 'Title',
             fieldLabel: 'Title',
-            bind: '{Title}'
+            allowBlank:false,
+            bind: '{newMovie.Title}'
         }, {
             xtype: 'textareafield',
             name: 'Description',
+            allowBlank:false,
             fieldLabel: 'Description',
-            bind: '{Description}'
+            bind: '{newMovie.Description}'
         }, {
             xtype: 'textfield',
             name: 'Genre',
+            allowBlank:false,
             fieldLabel: 'Genre',
-            bind: '{Genre}'
+            bind: '{newMovie.Genre}'
         }, {
             xtype: 'datefield',
             name: 'ReleaseDate',
+            allowBlank:false,
+
+            format: 'Y-m-d',
+            value: new Date(),
+            dateFormat: 'c',
+
             fieldLabel: 'Release Date',
-            bind:'{ReleaseDate}'
+            bind:'{newMovie.ReleaseDate}'
         }],
 
         buttons: [{
             text: 'Save',
-            formBind:true,
-            bind: {
-                handler: '{saveMovie}',
+            /*bind: {
+                disabled: '{!canAddMovie}'
+                //disabled:true
+            },*/
+            handler: function() {
+                var view = this.up('window');
+                var viewmodel = view.getViewModel();
+                var newMovie = viewmodel.get('newMovie');
+                var moviesStore = viewmodel.getStore('movies');
+
+                console.log('moviesStoreAdd:',moviesStore);
+
+            newMovie.setId(null);
+            moviesStore.add(newMovie);
+            moviesStore.sync({
+                success: function(){
+                    Ext.Msg.alert('Success', 'Movie added successfully.');
+                    viewmodel.set('newMovie', Ext.create('moviesRentalApp.model.Movie'));
+
+                },
+                failure: function() {
+                    Ext.Msg.alert('Error', 'Failed to add movie.')
+                }
+            })
+
             }
             
             
@@ -60,6 +91,9 @@ Ext.define('moviesRentalApp.view.AddMovieFormWindow', {
             text: 'Cancel',
             handler: function(){
                 console.log('Closed');
+                var windowview = this.up('addmovieformwindow');
+                windowview.close();
+                
             }
             
         }]

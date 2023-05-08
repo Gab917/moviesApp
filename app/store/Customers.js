@@ -1,13 +1,13 @@
-Ext.define('moviesRentalApp.store.Movies', {
+Ext.define('moviesRentalApp.store.Customers', {
     extend: 'Ext.data.Store',
-    alias: 'store.movies',
-    storeId:'storemovies',
-    model: 'moviesRentalApp.model.Movie',
-    idProperty:'MovieId',
+    alias: 'store.customer',
+    storeId:'storecustomer',
+    model: 'moviesRentalApp.model.Customer',
+    idProperty:'CustomerId',
     pageSize:10,
 
     requires: [
-        'moviesRentalApp.model.Movie'
+        'moviesRentalApp.model.Customer'
     ],
 
     
@@ -15,12 +15,12 @@ Ext.define('moviesRentalApp.store.Movies', {
 
     proxy: {
         type: 'rest',
-        //url: 'https://localhost:44376/api/Movies',
+        //url: 'https://localhost:44376/api/Customer',//change to use api property
         api: {
-            create: 'https://localhost:44376/api/Movies',
-            read: 'https://localhost:44376/api/Movies',
-            update: 'https://localhost:44376/api/Movies',
-            destroy: 'https://localhost:44376/api/Movies'
+            create: 'https://localhost:44376/api/Customer',
+            read: 'https://localhost:44376/api/Customer',
+            update: 'https://localhost:44376/api/Customer',
+            destroy: 'https://localhost:44376/api/Customer'
         },
         reader: {
             type: 'json',   
@@ -29,9 +29,9 @@ Ext.define('moviesRentalApp.store.Movies', {
             type: 'json',
             writeAllFields: true,
             transform: function (data, request) {
-                // Remove the MovieId field from the request body for create requests
+                // Removes the CustomerId field from the request body for create requests
                 if (request.getAction() === 'create') {
-                    delete data.MovieId;
+                    delete data.CustomerId;
                 }
 
                 return data;
@@ -51,11 +51,5 @@ Ext.define('moviesRentalApp.store.Movies', {
         }
     },
 
-    autoLoad: true,
-
-    listeners: {
-        write: function(store, operation) {
-            store.load();
-        }
-    }
+    autoLoad: true
 });

@@ -21,7 +21,16 @@ Ext.define('moviesRentalApp.view.main.Main', {
         'moviesRentalApp.view.main.List',
 
         'moviesRentalApp.view.MovieList',
-        'moviesRentalApp.viewmodel.MovieListViewModel',
+        'moviesRentalApp.viewmodel.MovieViewModel',
+        
+        'moviesRentalApp.view.CustomerList',
+        'moviesRentalApp.viewmodel.CustomerViewModel',
+
+        'moviesRentalApp.view.RentalList',
+
+        
+        'moviesRentalApp.store.RentMovies'
+
         
     ],
 
@@ -95,31 +104,23 @@ Ext.define('moviesRentalApp.view.main.Main', {
         // The following grid shares a store with the classic version's grid as well!
         items: [{
             xtype: 'moviegrid'
-        }, {
-            xtype: 'button',
-            text: 'Add Movie',
-            //bind: {
-            //   handler: '{onAddMovieClick}'
-            //}
-            handler: 'onAddMovieClick'
-        }]
+        }
+
+        ]
 
         // Generates ADD Movie Button in MOVIES tab
         
     }, {
         title: 'Customers',
         iconCls: 'fa-users',
-        bind: {
-            html: '{loremIpsum}'
-        },
         items: [{
-            xtype: 'mainlist'
+            xtype: 'customergrid'
         }]
     }, {
         title: 'Rent a movie',
         iconCls: 'fa-compact-disc',
-        bind: {
-            html: '{loremIpsum}'
-        }
+        items: [{
+            xtype:'rentalgrid'
+        }]
     }]
 });
