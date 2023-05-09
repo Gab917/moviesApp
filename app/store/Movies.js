@@ -4,7 +4,11 @@ Ext.define('moviesRentalApp.store.Movies', {
     storeId:'storemovies',
     model: 'moviesRentalApp.model.Movie',
     idProperty:'MovieId',
-    pageSize:10,
+    pageSize:5,
+    remoteSort: true,
+    remoteFilter: true,
+    filters:[],
+    autoLoad:true,
 
     requires: [
         'moviesRentalApp.model.Movie'
@@ -24,6 +28,8 @@ Ext.define('moviesRentalApp.store.Movies', {
         },
         reader: {
             type: 'json',   
+            rootProperty:'data',
+            totalProperty:'total'
         },
         writer: {
             type: 'json',
@@ -37,12 +43,8 @@ Ext.define('moviesRentalApp.store.Movies', {
                 return data;
             }
         },
-        /*actionMethods: {
-            create: 'POST',
-            read: 'GET',
-            update: 'PUT',
-            destroy: 'DELETE'
-        },*/
+        
+        
 
         listeners: {
             exception: function(proxy, response, operation) {
@@ -51,11 +53,5 @@ Ext.define('moviesRentalApp.store.Movies', {
         }
     },
 
-    autoLoad: true,
-
-    listeners: {
-        write: function(store, operation) {
-            store.load();
-        }
-    }
+    
 });
