@@ -4,6 +4,8 @@ Ext.define('moviesRentalApp.store.Rentals', {
     storeId:'storerentals',
     model: 'moviesRentalApp.model.Movie',
     idProperty:'RentalId',
+    remoteSort:true,
+    remoteFilter:true,
     pageSize:10,
 
     requires: [
@@ -25,6 +27,8 @@ Ext.define('moviesRentalApp.store.Rentals', {
         },
         reader: {
             type: 'json',   
+            rootProperty:'data',
+            totalProperty:'total'
         },
         writer: {
             type: 'json',

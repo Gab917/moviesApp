@@ -59,12 +59,12 @@ Ext.define('moviesRentalApp.view.MovieList', {
 
         select: function(grid, record, index, eOpts) {
             var window = Ext.create('moviesRentalApp.view.UpdateMovieFormWindow', {
-            listeners: {
-            show: function() {
-            var viewmodel = this.lookupViewModel();
-            viewmodel.set('clickedMovie', record.getData());
-            }
-            }
+                listeners: {
+                    show: function() {
+                        var viewmodel = this.lookupViewModel();
+                        viewmodel.set('clickedMovie', record.getData());
+                    }   
+                }
             });
             window.show();
             },
@@ -105,7 +105,7 @@ Ext.define('moviesRentalApp.view.MovieList', {
             emptyText: 'Search by Title...',
             enableKeyEvents: true,
             listeners: {
-                change: function(field, newValue, oldValue) {
+                /*change: function(field, newValue, oldValue) {
                     var store = field.up('grid').getStore();
                     var filters = store.getFilters();
                     var filter = new Ext.util.Filter({
@@ -115,15 +115,15 @@ Ext.define('moviesRentalApp.view.MovieList', {
                     filters.clear(); // Remove any existing filters
                     filters.add(filter); // Add the new filter
                     store.loadPage(1); // Load the first page of the filtered data
-                }
-                /*
+                }*/
+                
                 change: function(field, newValue, oldValue) {
                     var store = field.up('grid').getStore();
                     store.getProxy().setExtraParams({filter:newValue})
                     store.loadPage(1);
                     //store.reload();
                 }
-                */
+                
 
             }
             /*listeners: {

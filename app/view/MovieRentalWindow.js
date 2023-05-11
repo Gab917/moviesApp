@@ -20,6 +20,12 @@ Ext.define('moviesRentalApp.view.MovieRentalWindow',{
             selType:'checkboxmodel',
             checkOnly: true,
             showHeaderCheckbox: true
+        },bbar: {
+            xtype: 'pagingtoolbar',
+            
+            displayInfo: true,
+            displayMsg: 'Displaying {0} - {1} of {2}',
+            emptyMsg: 'No data to display',
         },
         tbar:[
             {
@@ -62,6 +68,33 @@ Ext.define('moviesRentalApp.view.MovieRentalWindow',{
                         }
                     });
                 }
+            },
+            {
+                xtype: 'textfield',
+                emptyText: 'Search by Title...',
+                enableKeyEvents: true,
+                listeners: {
+                    /*change: function(field, newValue, oldValue) {
+                        var store = field.up('grid').getStore();
+                        var filters = store.getFilters();
+                        var filter = new Ext.util.Filter({
+                            property: 'Title', // Set the property to filter on
+                            value: newValue // Set the value to filter for
+                        });
+                        filters.clear(); // Remove any existing filters
+                        filters.add(filter); // Add the new filter
+                        store.loadPage(1); // Load the first page of the filtered data
+                    }*/
+                
+                    change: function(field, newValue, oldValue) {
+                        var store = field.up('grid').getStore();
+                        store.getProxy().setExtraParams({filter:newValue})
+                        store.loadPage(1);
+                        //store.reload();
+                }
+                
+
+            }
             }
         ],
 

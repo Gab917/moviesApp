@@ -4,7 +4,11 @@ Ext.define('moviesRentalApp.store.Customers', {
     storeId:'storecustomer',
     model: 'moviesRentalApp.model.Customer',
     idProperty:'CustomerId',
-    pageSize:10,
+    pageSize:5,
+    remoteSort:true,
+    remoteFilter:true,
+    filters:[],
+
 
     requires: [
         'moviesRentalApp.model.Customer'
@@ -24,6 +28,8 @@ Ext.define('moviesRentalApp.store.Customers', {
         },
         reader: {
             type: 'json',   
+            rootProperty:'data',
+            totalProperty:'total'
         },
         writer: {
             type: 'json',

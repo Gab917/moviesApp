@@ -21,6 +21,13 @@ Ext.define('moviesRentalApp.view.MovieReturnWindow',{
             checkOnly: true,
             showHeaderCheckbox: true
         },
+        bbar: {
+            xtype: 'pagingtoolbar',
+            
+            displayInfo: true,
+            displayMsg: 'Displaying {0} - {1} of {2}',
+            emptyMsg: 'No data to display',
+        },
         tbar:[
             {
                 xtype: 'textfield',
@@ -42,8 +49,44 @@ Ext.define('moviesRentalApp.view.MovieReturnWindow',{
                     //var store = Ext.getStore('returnmovies');
                     var customerId = button.up('grid').down('#customerIdField').getValue(); // get the value of the textfield
                     var store = button.up('grid').getStore(); // get the store of the grid
-                    store.getProxy().setExtraParams({ customerId: customerId });
-                    store.reload();
+                    store.getProxy().setExtraParams(
+                        { 
+                            customerId:customerId
+                            //filter: customerId,
+                            //property:'CustomerId'
+                        }
+                    );
+                    store.loadPage(1);
+                }
+            },
+            {
+                text:'Return Selected Movies',
+                handler: function() {
+                    var selectedMovies = [];
+                    var grid = this.up('grid');
+                    var selectedRecords = grid.getSelectionModel().getSelection();
+                    Ext.each(selectedRecords, function(record){
+                        selectedMovies.push(record.get('RentalId'));
+                    });
+                    console.log('selectedMovies: ',selectedMovies);
+
+                    var returnRequest = Ext.create('moviesRentalApp.model.ReturnRequest', {
+                        RentalIds: selectedMovies
+                    })
+
+                    var store = grid.getStore();
+
+                    store.add(returnRequest);
+                    store.sync({
+                        success: function() {
+                            Ext.Msg.alert('Success','Movies returned successfully!');
+                            
+                        },
+                        failure: function(batch, options) {
+                            Ext.Msg.alert('Error', 'Failed to return movies.')
+                            console.log('Error while sending request:', batch.exceptions[0].getError());
+                        }
+                    });
                 }
             }
         ],

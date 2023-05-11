@@ -60,24 +60,65 @@ Ext.define('moviesRentalApp.view.RentalList', {
         },
         {
             xtype: 'textfield',
-            emptyText: 'Search by Title...',
+            emptyText: 'Search by Customer Name...',
             enableKeyEvents: true,
             listeners: {
-                keyup: function (field) {
+
+                change: function(field, newValue, oldValue) {
                     var store = field.up('grid').getStore();
-                    var value = field.getValue();
-                    store.clearFilter();
-                    if (value) {
-                        store.filter({
-                            property: 'RentalId',  // replace with the name of the field to filter on
-                            anyMatch: true,
-                            caseSensitive: false,
-                            value: value
-                        });
-                    }
+                    store.getProxy().setExtraParams({
+                        filter:newValue,
+                        property:'CustomerName'
+                    });
+                    store.loadPage(1);
+                    //store.reload();
                 }
+
+
             }
         },
+
+        {
+            xtype: 'textfield',
+            emptyText: 'Search by Movie Title...',
+            enableKeyEvents: true,
+            listeners: {
+
+                change: function(field, newValue, oldValue) {
+                    var store = field.up('grid').getStore();
+                    store.getProxy().setExtraParams({
+                        filter:newValue,
+                        property:'MovieTitle'
+                    });
+                    store.loadPage(1);
+                    //store.reload();
+                }
+
+
+            }
+        },
+
+        {
+            xtype: 'textfield',
+            emptyText: 'Search by Year...',
+            enableKeyEvents: true,
+            listeners: {
+
+                change: function(field, newValue, oldValue) {
+                    var store = field.up('grid').getStore();
+                    store.getProxy().setExtraParams({
+                        filter:newValue,
+                        property:'RentalDate'
+                    });
+                    store.loadPage(1);
+                    //store.reload();
+                }
+
+
+            }
+        },
+
+
         {
             xtype:'tbtext',
             text:'Click on a record to Update/Delete'

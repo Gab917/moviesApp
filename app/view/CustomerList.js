@@ -29,12 +29,12 @@ Ext.define('moviesRentalApp.view.CustomerList', {
     
     listeners:{
 
-        selectionchange: function(grid,selected,eOpts) {
+        select: function(grid, record,index,eOpts) {
             var window = Ext.create('moviesRentalApp.view.UpdateCustomerFormWindow', {
                 listeners: {
                     show: function() {
-                        var vm = this.lookupViewModel();
-                        vm.set('clickedCustomer', selected[0].getData());
+                        var viewmodel = this.lookupViewModel();
+                        viewmodel.set('clickedCustomer', record.getData());
                     }
                 }
             });
@@ -60,7 +60,6 @@ Ext.define('moviesRentalApp.view.CustomerList', {
         displayInfo: true,
         displayMsg: 'Displaying {0} - {1} of {2}',
         emptyMsg: 'No data to display',
-        pageSize: 10
     },
     tbar:[
         {
@@ -70,10 +69,17 @@ Ext.define('moviesRentalApp.view.CustomerList', {
         
         {
             xtype: 'textfield',
-            emptyText: 'Search by ID...',
+            emptyText: 'Search by Full Name...',
             enableKeyEvents: true,
             listeners: {
-                keyup: function (field) {
+                change: function(field, newValue, oldValue) {
+                    var store = field.up('grid').getStore();
+                    store.getProxy().setExtraParams({filter:newValue})
+                    store.loadPage(1);
+                    //store.reload();
+                }
+
+                /*keyup: function (field) {
                     var store = field.up('grid').getStore();
                     var value = field.getValue();
                     store.clearFilter();
@@ -85,7 +91,7 @@ Ext.define('moviesRentalApp.view.CustomerList', {
                             value: value
                         });
                     }
-                }
+                }*/
             }
         },
         {
