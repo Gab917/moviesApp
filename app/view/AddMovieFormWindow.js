@@ -71,12 +71,12 @@ Ext.define('moviesRentalApp.view.AddMovieFormWindow', {
 
                 console.log('moviesStoreAdd:',moviesStore);
 
-            newMovie.setId(null);
+            //newMovie.setId(null);
             moviesStore.add(newMovie);
             moviesStore.sync({
                 success: function(){
                     Ext.Msg.alert('Success', 'Movie added successfully.');
-                    //viewmodel.set('newMovie', Ext.create('moviesRentalApp.model.Movie'));
+                    viewmodel.set('newMovie', moviesRentalApp.model.Movie.create());
 
                 },
                 failure: function() {

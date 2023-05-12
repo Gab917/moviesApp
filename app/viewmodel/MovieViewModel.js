@@ -3,7 +3,7 @@ Ext.define('moviesRentalApp.viewmodel.MovieViewModel', {
     alias: 'viewmodel.movie',
 
     data: {
-        newMovie: Ext.create('moviesRentalApp.model.Movie'),
+        newMovie: moviesRentalApp.model.Movie.create(),
         clickedMovie: Ext.create('moviesRentalApp.model.Movie'),
         
         

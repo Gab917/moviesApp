@@ -9,12 +9,16 @@ Ext.define('moviesRentalApp.controller.MovieController', {
         }
     },*/
     onUpdateButtonClick: function(button) {
+        
         var view = button.up('window'); //uses button.up instead of this.up to call parent component view
         var viewmodel = view.getViewModel();
         console.log(viewmodel.get('clickedMovie'));
         var updatedMovie = viewmodel.get('clickedMovie');
         
-        var moviesStore = viewmodel.getStore('movies');
+        
+        var grid = Ext.getCmp('moviegridId');
+        var moviesStore = grid.getStore(); // GETS STORE OF GRID INSTEAD OF VIEWMODEL SINCE I AM INTERACTING WITH
+        //THE GRID
 
         var movieToUpdate = moviesStore.getById(viewmodel.get('clickedMovie.MovieId'));
 
@@ -31,11 +35,15 @@ Ext.define('moviesRentalApp.controller.MovieController', {
 
     onDeleteButtonClick: function(button) {
         console.log('Delete Pressed');
-
+        
+        
         var view = button.up('window');
         var viewmodel = view.getViewModel();
         console.log(viewmodel.get('clickedMovie'));
-        var moviesStore = viewmodel.getStore('movies');
+        //var moviesStore = viewmodel.getStore('movies');
+        
+        var grid = Ext.getCmp('moviegridId');
+        var moviesStore = grid.getStore();
 
         var movieToUpdate = moviesStore.getById(viewmodel.get('clickedMovie.MovieId'));
         console.log('movieToUpdate:', movieToUpdate);

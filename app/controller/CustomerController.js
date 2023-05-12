@@ -7,8 +7,10 @@ Ext.define('moviesRentalApp.controller.CustomerController', {
         var viewmodel = view.getViewModel();
         console.log(viewmodel.get('clickedCustomer'));
         var updatedCustomer = viewmodel.get('clickedCustomer');
-        
-        var customerStore = viewmodel.getStore('customers');
+
+        var grid = Ext.getCmp('customergrid');
+        var customerStore = grid.getStore();
+        //var customerStore = viewmodel.getStore('customers');
 
         var customerToUpdate = customerStore.getById(viewmodel.get('clickedCustomer.CustomerId'));
 
@@ -29,7 +31,10 @@ Ext.define('moviesRentalApp.controller.CustomerController', {
         var view = button.up('window');
         var viewmodel = view.getViewModel();
         console.log(viewmodel.get('clickedCustomer'));
-        var customerStore = viewmodel.getStore('customers');
+        
+        var grid = Ext.getCmp('customergrid');
+        var customerStore = grid.getStore();
+        //var customerStore = viewmodel.getStore('customers');
 
         var customerToUpdate = customerStore.getById(viewmodel.get('clickedCustomer.CustomerId'));
         console.log('movieToUpdate:', customerToUpdate);

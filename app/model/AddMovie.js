@@ -1,11 +1,9 @@
-Ext.define('moviesRentalApp.model.Movie', {
+Ext.define('moviesRentalApp.model.AddMovie', {
     extend: 'Ext.data.Model',
     autoGenId:false,
-    //validation:false,
-    idProperty:'MovieId',
+    idProperty:null,
     fields: [
 
-        { name: 'MovieId', type: 'int' },
         { name: 'Title', type: 'string' },
         { name: 'Genre', type: 'string' },
         { name: 'ReleaseDate'},

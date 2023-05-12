@@ -3,11 +3,13 @@ Ext.define('moviesRentalApp.store.Movies', {
     alias: 'store.movies',
     storeId:'storemovies',
     model: 'moviesRentalApp.model.Movie',
+    autoGenId:false,
     idProperty:'MovieId',
     pageSize:5,
     remoteSort: true,
     remoteFilter: true,
     filters:[],
+    //autoSync:false,
     autoLoad:true,
 
     requires: [
@@ -15,7 +17,10 @@ Ext.define('moviesRentalApp.store.Movies', {
     ],
 
     
-    
+    create: function(record) {
+        record.set('phantom', true);
+        this.callParent(arguments);
+    },
 
     proxy: {
         type: 'rest',
@@ -33,22 +38,26 @@ Ext.define('moviesRentalApp.store.Movies', {
         },
         writer: {
             type: 'json',
-            writeAllFields: true,
+            writeAllFields: false,
             transform: function (data, request) {
                 // Remove the MovieId field from the request body for create requests
                 if (request.getAction() === 'create') {
                     delete data.MovieId;
+                    request.setParam({});
                 }
 
                 return data;
             }
         },
+
+        
         
         
 
         listeners: {
             exception: function(proxy, response, operation) {
                 console.log('Error', operation.getError());
+                console.log('Error', response);
             }
         }
     },
