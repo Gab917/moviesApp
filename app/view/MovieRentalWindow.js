@@ -6,6 +6,10 @@ Ext.define('moviesRentalApp.view.MovieRentalWindow',{
         
         'moviesRentalApp.store.RentMovies'
     ],
+    viewModel:{
+        type:'rental'
+    },
+
     height:600,
     width:1000,
     layout:'fit',
@@ -32,7 +36,17 @@ Ext.define('moviesRentalApp.view.MovieRentalWindow',{
                 xtype: 'textfield',
                 fieldLabel: 'Customer ID',
                 labelWidth: 80,
-                itemId: 'customerIdField'
+                itemId: 'customerIdField',
+                bind:{
+                    value:'{customerId}'
+                },
+                listeners:{
+                    change: function(){
+                        var viewmodel = this.up('window').getViewModel();
+                        console.log(viewmodel.get('customerId'));
+                    }
+                }
+                
             },
             {
                 text:'Rent Selected Movies',
@@ -61,10 +75,22 @@ Ext.define('moviesRentalApp.view.MovieRentalWindow',{
                         success: function() {
                             Ext.Msg.alert('Success','Movies rented successfully!');
                             console.log('Request sent successfully');
+                            var rentalgrid = Ext.getCmp('rentalgridid');
+                            var rentalstore = rentalgrid.getStore();
+                            rentalstore.reload();
                         },
                         failure: function(batch, options) {
-                            Ext.Msg.alert('Error', 'Failed to rent movies.')
-                            console.log('Error while sending request:', batch.exceptions[0].getError());
+                            //Ext.Msg.alert('Error', 'Failed to rent movies.')
+                            //console.log('Error while sending request:', batch.exceptions[0].getError());
+                            if (batch.exceptions && batch.exceptions.length > 0) {
+                                var error = batch.exceptions[0].getError();
+                                var responseText = error.response.responseJson;
+                                if (error.status === 400) {
+                                    console.log('HTTP response body:', responseText);
+                                }
+                            }
+                            Ext.Msg.alert('Error', 'Failed to rent movies. '+responseText.Message);
+                            console.log('Error while sending request:', error);
                         }
                     });
                 }

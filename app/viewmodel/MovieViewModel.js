@@ -13,6 +13,7 @@ Ext.define('moviesRentalApp.viewmodel.MovieViewModel', {
     stores: {
         movies: {
             type: 'movies',
+            autoLoad:true,
             listeners: {
                 load: function (store, records) {
                     console.log('movies store loaded:', records);

@@ -1,13 +1,8 @@
 Ext.define('moviesRentalApp.controller.MovieController', {
     extend:'Ext.app.ViewController',
     alias:'controller.movie',
-    /*config: {
-        control: {
-            'button[text=Delete]': {
-                click: 'onDeleteButtonClick'
-            }
-        }
-    },*/
+
+    
     onUpdateButtonClick: function(button) {
         
         var view = button.up('window'); //uses button.up instead of this.up to call parent component view
@@ -25,10 +20,13 @@ Ext.define('moviesRentalApp.controller.MovieController', {
         movieToUpdate.set(updatedMovie);
         moviesStore.sync({
             success: function(){
+                var rentalgrid = Ext.getCmp('rentalgridid');
+                var rentalstore = rentalgrid.getStore();
+                rentalstore.reload();
                 Ext.Msg.alert('Success', 'Movie updated successfully.');
             },
             failure: function(){
-                Ext.Msg.alert('Error', 'Failed to add movie.')
+                Ext.Msg.alert('Error', 'Failed to update rental.')
             }
         })
     },
@@ -52,6 +50,9 @@ Ext.define('moviesRentalApp.controller.MovieController', {
             moviesStore.remove(movieToUpdate);
             moviesStore.sync({
                 success: function() {
+                    var rentalgrid = Ext.getCmp('rentalgridid');
+                    var rentalstore = rentalgrid.getStore();
+                    rentalstore.reload();
                     Ext.Msg.alert('Success', 'Movie deleted successfully.');
                     view.close();
                 },

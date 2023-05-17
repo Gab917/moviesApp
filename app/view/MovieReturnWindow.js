@@ -10,6 +10,9 @@ Ext.define('moviesRentalApp.view.MovieReturnWindow',{
     width:1000,
     layout:'fit',
     modal:true,
+    viewModel:{
+        type:'rental'
+    },
     items:[{
         xtype: 'grid',
         store: {
@@ -33,7 +36,8 @@ Ext.define('moviesRentalApp.view.MovieReturnWindow',{
                 xtype: 'textfield',
                 fieldLabel: 'Customer ID',
                 labelWidth: 80,
-                itemId: 'customerIdField'
+                itemId: 'customerIdField',
+                bind:'{customerId}'
             },
             {
                 text:'Select Customer',
@@ -80,7 +84,10 @@ Ext.define('moviesRentalApp.view.MovieReturnWindow',{
                     store.sync({
                         success: function() {
                             Ext.Msg.alert('Success','Movies returned successfully!');
-                            
+                            store.load();
+                            var rentalgrid = Ext.getCmp('rentalgridid');
+                            var rentalstore = rentalgrid.getStore();
+                            rentalstore.reload();
                         },
                         failure: function(batch, options) {
                             Ext.Msg.alert('Error', 'Failed to return movies.')

@@ -49,23 +49,33 @@ Ext.define('moviesRentalApp.view.AddCustomerFormWindow', {
         buttons: [{
             text: 'Save',
             handler: function() {
-                var view = this.up('window');
-                var viewmodel = view.getViewModel();
-                var newCustomer = viewmodel.get('newCustomer');
-                var customerStore = viewmodel.getStore('customers');
+                var form = this.up('form');
+                if (form.isValid()){
+                    var view = this.up('window');
+                    var viewmodel = view.getViewModel();
+                    var newCustomer = viewmodel.get('newCustomer');
+                    var customerStore = viewmodel.getStore('customers');
 
 
-                customerStore.add(newCustomer);
-                customerStore.sync({
-                success: function(){
-                    Ext.Msg.alert('Success', 'Customer added successfully.');
-                    viewmodel.set('newCustomer', Ext.create('moviesRentalApp.model.Customer'));
+                    newCustomer.set('CustomerId',null);
+                    var addRequest = Ext.create('moviesRentalApp.model.Movie', newCustomer.getData());
+                    customerStore.add(addRequest);
+                    customerStore.sync({
+                    success: function(){
+                        Ext.Msg.alert('Success', 'Customer added successfully.');
+                        viewmodel.set('newCustomer', Ext.create('moviesRentalApp.model.Customer'));
 
-                },
-                failure: function() {
-                    Ext.Msg.alert('Error', 'Failed to add customer.')
+                    },
+                    failure: function() {
+                        Ext.Msg.alert('Error', 'Failed to add customer.')
+                    }
+                })
                 }
-            })
+
+                else {
+                    Ext.Msg.alert('Error', 'Fill the required fields!.')
+                }
+                
 
             }
             

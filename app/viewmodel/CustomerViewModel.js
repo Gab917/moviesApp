@@ -3,7 +3,7 @@ Ext.define('moviesRentalApp.viewmodel.CustomerViewModel', {
     alias: 'viewmodel.customer',
 
     data: {
-        newCustomer: Ext.create('moviesRentalApp.model.Customer'),
+        newCustomer: moviesRentalApp.model.Customer.create(),
         clickedCustomer: Ext.create('moviesRentalApp.model.Customer'),
         
         

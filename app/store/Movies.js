@@ -17,10 +17,7 @@ Ext.define('moviesRentalApp.store.Movies', {
     ],
 
     
-    create: function(record) {
-        record.set('phantom', true);
-        this.callParent(arguments);
-    },
+    
 
     proxy: {
         type: 'rest',

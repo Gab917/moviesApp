@@ -3,7 +3,7 @@ Ext.define('moviesRentalApp.model.Customer', {
     idProperty:'CustomerId',
     fields: [
 
-        { name: 'CustomerId', type: 'int' },
+        { name: 'CustomerId', type: 'int', persist:false },
         { name: 'FullName', type: 'string' },
         { name: 'EmailAddress', type: 'string' },
         { name: 'Age', type: 'int'},

@@ -1,7 +1,7 @@
 Ext.define('moviesRentalApp.model.AddMovie', {
     extend: 'Ext.data.Model',
     autoGenId:false,
-    idProperty:null,
+    //identifier:'uuid',
     fields: [
 
         { name: 'Title', type: 'string' },

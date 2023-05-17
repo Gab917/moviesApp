@@ -59,30 +59,40 @@ Ext.define('moviesRentalApp.view.AddMovieFormWindow', {
 
         buttons: [{
             text: 'Save',
-            /*bind: {
-                disabled: '{!canAddMovie}'
-                //disabled:true
-            },*/
+            
             handler: function() {
-                var view = this.up('window');
+                var form = this.up('form');
+                if(form.isValid()){
+                    var view = this.up('window');
                 var viewmodel = view.getViewModel();
                 var newMovie = viewmodel.get('newMovie');
+                //var newMovie = viewmodel.getData('newMovie');
                 var moviesStore = viewmodel.getStore('movies');
 
+
                 console.log('moviesStoreAdd:',moviesStore);
+                newMovie.set('MovieId',null);
+                //newMovie.setId(null);
+                console.log('newMovie Data: ',newMovie.getData());
+                console.log('viewmodel: ', viewmodel);
+                var addRequest = Ext.create('moviesRentalApp.model.Movie', newMovie.getData());
+                console.log('addRequest object: ',addRequest)
+                moviesStore.add(addRequest);
+                moviesStore.sync({
+                    success: function(){
+                        Ext.Msg.alert('Success', 'Movie added successfully.');
+                        viewmodel.set('newMovie', moviesRentalApp.model.AddMovie.create());
 
-            //newMovie.setId(null);
-            moviesStore.add(newMovie);
-            moviesStore.sync({
-                success: function(){
-                    Ext.Msg.alert('Success', 'Movie added successfully.');
-                    viewmodel.set('newMovie', moviesRentalApp.model.Movie.create());
-
-                },
-                failure: function() {
-                    Ext.Msg.alert('Error', 'Failed to add movie.')
+                    },
+                    failure: function() {
+                        Ext.Msg.alert('Error', 'Failed to add movie.')
+                    }
+                })
                 }
-            })
+                else {
+                    Ext.Msg.alert('Incomplete', 'Please fill out the fields!');
+                }
+                
 
             }
             

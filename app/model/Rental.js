@@ -3,12 +3,12 @@ Ext.define('moviesRentalApp.model.Rental', {
     idProperty:'RentalId',
     fields: [
 
-        { name: 'RentalId'},
-        { name: 'CustomerId'},
-        { name: 'CustomerName'},
+        { name: 'RentalId', type :'int'},
+        { name: 'CustomerId', type :'int'},
+        { name: 'CustomerName', type: 'string' },
         { name: 'RentalDate'},
-        { name: 'MovieId'},
-        { name: 'MovieTitle'},
+        { name: 'MovieId', type :'int'},
+        { name: 'MovieTitle', type: 'string' },
         { name: 'ReturnDate'},
         
 

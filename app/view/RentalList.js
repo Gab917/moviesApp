@@ -1,24 +1,23 @@
 Ext.define('moviesRentalApp.view.RentalList', {
     extend: 'Ext.grid.Panel',
     xtype: 'rentalgrid',
-    id: 'rentalgrid',
+    id: 'rentalgridid',
     controller:'main',
     
 
-    /*viewmodel: {
-        type: 'movie'
-    },*/
+    viewModel:{
+        type:'rental'
+    },
 
     
 
     //type: 'movie',
 
     title: 'Rentals',
-    store: {
-        type: 'rentals',
-       
-        
+    bind:{
+        store:'{rentals}'
     },
+   
 
     selModel: {
         selType:'rowmodel'
@@ -27,7 +26,17 @@ Ext.define('moviesRentalApp.view.RentalList', {
     
     listeners:{
        
-
+        select: function(grid, record, index, eOpts) {
+            var window = Ext.create('moviesRentalApp.view.UpdateRentalFormWindow', {
+                listeners: {
+                    show: function() {
+                        var viewmodel = this.lookupViewModel();
+                        viewmodel.set('clickedRental', record.getData());
+                    }   
+                }
+            });
+            window.show();
+            },
     
 
     },
@@ -58,10 +67,31 @@ Ext.define('moviesRentalApp.view.RentalList', {
             text:'Return Movie',
             handler: 'onReturnMoviesClick'
         },
+
+        {
+            xtype: 'textfield',
+            emptyText: 'Search by Rental ID...',
+            enableKeyEvents: true,
+            listeners: {
+
+                change: function(field, newValue, oldValue) {
+                    var store = field.up('grid').getStore();
+                    store.getProxy().setExtraParams({
+                        filter:newValue,
+                        property:'CustomerId'
+                    });
+                    store.loadPage(1);
+                    //store.reload();
+                }
+
+
+            }
+        },
         {
             xtype: 'textfield',
             emptyText: 'Search by Customer Name...',
             enableKeyEvents: true,
+            width:200,
             listeners: {
 
                 change: function(field, newValue, oldValue) {
@@ -98,25 +128,7 @@ Ext.define('moviesRentalApp.view.RentalList', {
             }
         },
 
-        {
-            xtype: 'textfield',
-            emptyText: 'Search by Year...',
-            enableKeyEvents: true,
-            listeners: {
-
-                change: function(field, newValue, oldValue) {
-                    var store = field.up('grid').getStore();
-                    store.getProxy().setExtraParams({
-                        filter:newValue,
-                        property:'RentalDate'
-                    });
-                    store.loadPage(1);
-                    //store.reload();
-                }
-
-
-            }
-        },
+        
 
 
         {

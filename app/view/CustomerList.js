@@ -9,7 +9,7 @@ Ext.define('moviesRentalApp.view.CustomerList', {
     ],
     controller:'customer',
 
-    viewmodel: {
+    viewModel: {
         type: 'customer'
     },
 
@@ -17,9 +17,8 @@ Ext.define('moviesRentalApp.view.CustomerList', {
 
 
     title: 'Customers',
-    store: {
-        type: 'customer',
-        
+    bind:{
+        store:'{customers}'
     },
 
     selModel: {

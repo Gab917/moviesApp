@@ -2,7 +2,7 @@ Ext.define('moviesRentalApp.store.Rentals', {
     extend: 'Ext.data.Store',
     alias: 'store.rentals',
     storeId:'storerentals',
-    model: 'moviesRentalApp.model.Movie',
+    model: 'moviesRentalApp.model.Rental',
     idProperty:'RentalId',
     remoteSort:true,
     remoteFilter:true,

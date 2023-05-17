@@ -5,7 +5,7 @@ Ext.define('moviesRentalApp.model.Movie', {
     idProperty:'MovieId',
     fields: [
 
-        { name: 'MovieId', type: 'int' },
+        { name: 'MovieId', type: 'int' , persist:false},
         { name: 'Title', type: 'string' },
         { name: 'Genre', type: 'string' },
         { name: 'ReleaseDate'},

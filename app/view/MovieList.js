@@ -9,19 +9,48 @@ Ext.define('moviesRentalApp.view.MovieList', {
     ],
     controller:'main',
 
-    viewmodel: {
-        type: 'movie'
+    viewModel:{
+        type:'movie'
     },
 
     
 
     //type: 'movie',
-
+    
     title: 'Movies',
-    store: {
-        type: 'movies',
+    bind:{
+        store: '{movies}'
+    },
+
+    listeners: {
+        afterrender: function() {
+            var store = this.getViewModel().getStore('movies');
+            store.load();
+            console.log(store);
+        },
+
+    },
+    initComponent: function() {
+        
+        this.callParent(arguments);
         
     },
+    /*initComponent: function() {
+        this.callParent(arguments);
+
+        var store = this.getViewModel().getStore('movies');
+        store.load();
+        /*var me = this;
+        me.store = Ext.create('moviesRentalApp.store.Movies');
+        me.store.load();
+        me.callParent();
+
+        store:{
+        type:'movies'
+    },
+    }*/
+    
+    
 
     selModel: {
         selType:'rowmodel'
@@ -29,33 +58,7 @@ Ext.define('moviesRentalApp.view.MovieList', {
 
     
     listeners:{
-        /*selectionchange:function(grid, selected, eOpts) {
-            var gridCmp = Ext.getCmp('moviegridId');
-            var vm = gridCmp.lookupViewModel();
-            var clickedMovie = selected[0];
-            if(clickedMovie){
-                vm.set('clickedMovie', selected[0]);
-                console.log(selected[0]);
-                //vm.setData(clickedMovie.getData());
-                //console.log('clickedMovie.getData()',clickedMovie.getData());
-                console.log('clickedMovie in ViewModel',vm.get('clickedMovie'));
-                var window = Ext.create('moviesRentalApp.view.UpdateMovieFormWindow');
-                window.show();
-            }
-
-        }*/
-
-        /*selectionchange: function(grid,selected,eOpts) {
-            var window = Ext.create('moviesRentalApp.view.UpdateMovieFormWindow', {
-                listeners: {
-                    show: function() {
-                        var viewmodel = this.lookupViewModel();
-                        viewmodel.set('clickedMovie', selected[0]);
-                    }
-                }
-            });
-            window.show();
-        },*/
+        
 
         select: function(grid, record, index, eOpts) {
             var window = Ext.create('moviesRentalApp.view.UpdateMovieFormWindow', {
@@ -69,11 +72,6 @@ Ext.define('moviesRentalApp.view.MovieList', {
             window.show();
             },
 
-        afterrender: function(grid) {
-            grid.getStore().on('load', function() {
-                grid.getView().refresh();
-            });
-        }
 
     },
 
@@ -96,10 +94,7 @@ Ext.define('moviesRentalApp.view.MovieList', {
             text:'Add New Movie',
             handler:'onAddMovieClick'
         },
-        {
-            text:'Delete Movie',
-            handler: 'onDeleteMovieClick'
-        },
+        
         {
             xtype: 'textfield',
             emptyText: 'Search by Title...',
